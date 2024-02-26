@@ -4,6 +4,8 @@ $code-color-result: #ffffff;
 $code-color-error: #ff4444;
 $code-background-color-notification: #f1b80f;
 $code-color-notification: #f9f0d7;
+$submission-accepted: #73d673;
+$submission-reject: rgb(242, 88, 77);
 
 .workspace {
   height: 100%;
@@ -368,6 +370,78 @@ $code-color-notification: #f9f0d7;
         padding: 0 2px;
       }
     }
+  }
+
+  .Moderator {
+    min-width: 192px;
+
+    .moderator-header {
+      text-align: center;
+    }
+
+    .moderator-container {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        padding: 8px 8px 0 8px;
+        flex: 1 1;
+
+        & > div {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: space-evenly;
+          align-content: center;
+          align-items: center;
+
+          & > div {
+            text-align: center;
+            width: 150px;
+            padding: 0 0 16px 0;
+          }
+
+          .status-icon {
+            font-weight: bold;
+            padding-bottom: 0;
+
+            & > div {
+              padding: 5px 0 5px 0;
+              align-items: center;
+            }
+
+            .accepted-text {
+              background-color: $submission-accepted;
+            }
+
+            .rejected-text {
+              background-color: $code-color-error;
+            }
+          }
+
+          .token-count {
+            padding-top: 7px;
+          }
+
+          & > div:first-of-type {
+            padding: 0 0 8px 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+
+  .moderator-flag-button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
   }
 
   .#{$ns}-tab-indicator-wrapper {

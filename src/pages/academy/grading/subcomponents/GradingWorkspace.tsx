@@ -59,6 +59,7 @@ import Workspace, { WorkspaceProps } from '../../../../commons/workspace/Workspa
 import { WorkspaceLocation, WorkspaceState } from '../../../../commons/workspace/WorkspaceTypes';
 import { AnsweredQuestion } from '../../../../features/grading/GradingTypes';
 import GradingEditor from './GradingEditor';
+import GradingModerator from './GradingModerator';
 
 type GradingWorkspaceProps = {
   submissionId: number;
@@ -327,7 +328,24 @@ const GradingWorkspace: React.FC<GradingWorkspaceProps> = props => {
       {
         label: `Moderation`,
         iconName: IconNames.WARNING_SIGN,
-        body: <div>hello</div>,
+        body: (
+          <GradingModerator
+            questionId={grading!.answers[questionId].question.id}
+            submissionId={props.submissionId}
+            studentName={grading!.answers[questionId].student.name}
+            studentUsername={grading!.answers[questionId].student.username}
+            graderName={
+              grading!.answers[questionId].grade.grader
+                ? grading!.answers[questionId].grade.grader!.name
+                : undefined
+            }
+            gradedAt={
+              grading!.answers[questionId].grade.grader
+                ? grading!.answers[questionId].grade.gradedAt!
+                : undefined
+            }
+          />
+        ),
         id: SideContentType.moderation
       },
       {
