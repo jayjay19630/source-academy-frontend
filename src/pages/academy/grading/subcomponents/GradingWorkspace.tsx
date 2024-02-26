@@ -325,6 +325,12 @@ const GradingWorkspace: React.FC<GradingWorkspaceProps> = props => {
         id: SideContentType.grading
       },
       {
+        label: `Moderation`,
+        iconName: IconNames.WARNING_SIGN,
+        body: <div>hello</div>,
+        id: SideContentType.moderation
+      },
+      {
         label: `Question ${questionId + 1}`,
         iconName: IconNames.NINJA,
         body: <Markdown content={grading!.answers[questionId].question.content} />,
