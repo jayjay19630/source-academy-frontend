@@ -1,4 +1,4 @@
-import { Card, Divider, H3 } from '@blueprintjs/core';
+import { Card, Checkbox, Divider, H3 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 import { useState } from 'react';
 import ControlButton from 'src/commons/ControlButton';
@@ -15,18 +15,21 @@ type Props = {
 
 enum SubmissionStatus {
   ACCEPTED,
-  REJECTED
+  PENDING,
+  FLAGGED
 }
 
-const StatusIcon: React.FC<{ status: SubmissionStatus }> = ({ status }) => (
-  <Card className="status-icon">
-    {status === SubmissionStatus.ACCEPTED ? (
+const StatusIcon: React.FC<{ status: SubmissionStatus }> = ({ status }) => {
+  const text =
+    status === SubmissionStatus.ACCEPTED ? (
       <div className="accepted-text">ACCEPTED</div>
+    ) : status === SubmissionStatus.FLAGGED ? (
+      <div className="flagged-text">FLAGGED</div>
     ) : (
-      <div className="rejected-text">REJECTED</div>
-    )}
-  </Card>
-);
+      <div className="pending-text">PENDING</div>
+    );
+  return <Card className="status-icon">{text}</Card>;
+};
 
 const GradingModerator: React.FC<Props> = props => {
   const [submissionStatus, setSubmissionStatus] = useState(SubmissionStatus.ACCEPTED);
@@ -34,9 +37,13 @@ const GradingModerator: React.FC<Props> = props => {
   const handleFlagSubmission = () => {
     setSubmissionStatus(
       submissionStatus === SubmissionStatus.ACCEPTED
-        ? SubmissionStatus.REJECTED
+        ? SubmissionStatus.PENDING
         : SubmissionStatus.ACCEPTED
     );
+  };
+
+  const handleSaveChanges = () => {
+    setSubmissionStatus(SubmissionStatus.FLAGGED);
   };
 
   return (
@@ -67,10 +74,39 @@ const GradingModerator: React.FC<Props> = props => {
           onClick={handleFlagSubmission}
         />
       </div>
+      <div className="moderator-reason">
+        <div
+          className="moderator-warning"
+          style={{ opacity: submissionStatus === SubmissionStatus.ACCEPTED ? 0.4 : 1 }}
+        >
+          As accurately as you can, please tell us what happened with this submission. Choose as
+          many reporting categories as you need to. This will only affect contests and contest
+          voting.
+        </div>
+        <div className="moderator-checkboxes">
+          <Checkbox disabled={submissionStatus === SubmissionStatus.ACCEPTED}>
+            Low effort or low quality submission
+          </Checkbox>
+          <Checkbox disabled={submissionStatus === SubmissionStatus.ACCEPTED}>
+            Includes inappropriate messages
+          </Checkbox>
+          <Checkbox disabled={submissionStatus === SubmissionStatus.ACCEPTED}>
+            Plagiarism or unauthorized use of others' work
+          </Checkbox>
+        </div>
+      </div>
+      <div className="moderator-save-button">
+        <ControlButton
+          isDisabled={submissionStatus === SubmissionStatus.ACCEPTED}
+          label="Save Changes"
+          icon={IconNames.FLOPPY_DISK}
+          onClick={handleSaveChanges}
+        />
+      </div>
       {props.graderName && props.gradedAt && (
         <>
           <Divider />
-          <div className="grading-editor-last-graded-details">
+          <div className="grading-moderator-last-graded-details">
             Last edited by <b>{props.graderName}</b> on {getPrettyDate(props.gradedAt)}
           </div>
         </>
