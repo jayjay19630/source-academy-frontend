@@ -27,6 +27,7 @@ export type DispatchProps = {
   handlePublishAssessment: (togglePublishTo: boolean, id: number) => void;
   handleAssessmentChangeDate: (id: number, openAt: string, closeAt: string) => void;
   handleFetchCourseConfigs: () => void;
+  handleAssignContestEntries: (id: number) => void;
 };
 
 export type StateProps = {
@@ -187,13 +188,28 @@ class GroundControl extends React.Component<GroundControlProps, State> {
         width: 150
       },
       {
+        headerName: 'Assign',
+        field: '',
+        cellRenderer: '',
+        cellRendererParams: {
+          handleAssignContestEntries: this.props.handleAssignContestEntries
+        },
+        width: 70,
+        filter: false,
+        resizable: false,
+        sortable: false,
+        cellStyle: {
+          padding: 0
+        }
+      },
+      {
         headerName: 'Publish',
         field: '',
         cellRenderer: PublishCell,
         cellRendererParams: {
           handlePublishAssessment: this.props.handlePublishAssessment
         },
-        width: 100,
+        width: 70,
         filter: false,
         resizable: false,
         sortable: false,
@@ -208,7 +224,7 @@ class GroundControl extends React.Component<GroundControlProps, State> {
         cellRendererParams: {
           handleDeleteAssessment: this.props.handleDeleteAssessment
         },
-        width: 100,
+        width: 70,
         filter: false,
         resizable: false,
         sortable: false,

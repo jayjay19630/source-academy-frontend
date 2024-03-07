@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import {
+  ASSIGN_CONTEST_ENTRIES,
   CHANGE_DATE_ASSESSMENT,
   DELETE_ASSESSMENT,
   PUBLISH_ASSESSMENT,
@@ -25,3 +26,7 @@ export const uploadAssessment = createAction(
     payload: { file, forceUpdate, assessmentConfigId }
   })
 );
+
+export const assignContestEntries = createAction(ASSIGN_CONTEST_ENTRIES, (id: number) => ({
+  payload: id
+}));

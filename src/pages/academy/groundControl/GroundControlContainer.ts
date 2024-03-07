@@ -7,6 +7,7 @@ import {
 } from '../../../commons/application/actions/SessionActions';
 import { OverallState } from '../../../commons/application/ApplicationTypes';
 import {
+  assignContestEntries,
   changeDateAssessment,
   deleteAssessment,
   publishAssessment,
@@ -27,7 +28,8 @@ const mapDispatchToProps: MapDispatchToProps<DispatchProps, {}> = (dispatch: Dis
       handleDeleteAssessment: deleteAssessment,
       handleUploadAssessment: uploadAssessment,
       handlePublishAssessment: publishAssessment,
-      handleFetchCourseConfigs: fetchCourseConfig
+      handleFetchCourseConfigs: fetchCourseConfig,
+      handleAssignContestEntries: assignContestEntries
     },
     dispatch
   );
