@@ -13,6 +13,7 @@ import {
 } from '../../../commons/assessment/AssessmentTypes';
 import ContentDisplay from '../../../commons/ContentDisplay';
 import DefaultChapterSelect from './subcomponents/DefaultChapterSelect';
+import AssignCell from './subcomponents/GroundControlAssignCell';
 import DeleteCell from './subcomponents/GroundControlDeleteCell';
 import Dropzone from './subcomponents/GroundControlDropzone';
 import EditCell from './subcomponents/GroundControlEditCell';
@@ -27,7 +28,7 @@ export type DispatchProps = {
   handlePublishAssessment: (togglePublishTo: boolean, id: number) => void;
   handleAssessmentChangeDate: (id: number, openAt: string, closeAt: string) => void;
   handleFetchCourseConfigs: () => void;
-  handleAssignContestEntries: (id: number) => void;
+  handleAssignContestEntries: (toggleAssignTo: boolean, id: number) => void;
 };
 
 export type StateProps = {
@@ -190,7 +191,7 @@ class GroundControl extends React.Component<GroundControlProps, State> {
       {
         headerName: 'Assign',
         field: '',
-        cellRenderer: '',
+        cellRenderer: AssignCell,
         cellRendererParams: {
           handleAssignContestEntries: this.props.handleAssignContestEntries
         },

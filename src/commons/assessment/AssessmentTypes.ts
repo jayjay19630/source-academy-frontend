@@ -63,6 +63,7 @@ export type AssessmentOverview = {
   gradingStatus: GradingStatus;
   id: number;
   isPublished?: boolean;
+  isContestEntriesAssigned?: boolean;
   maxXp: number;
   number?: string; // For mission control
   openAt: string;

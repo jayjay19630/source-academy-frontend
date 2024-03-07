@@ -27,6 +27,9 @@ export const uploadAssessment = createAction(
   })
 );
 
-export const assignContestEntries = createAction(ASSIGN_CONTEST_ENTRIES, (id: number) => ({
-  payload: id
-}));
+export const assignContestEntries = createAction(
+  ASSIGN_CONTEST_ENTRIES,
+  (toggleAssignTo: boolean, id: number) => ({
+    payload: { id, toggleAssignTo }
+  })
+);
