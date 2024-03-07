@@ -73,7 +73,7 @@ export type AssessmentOverview = {
   story: string | null;
   title: string;
   isContestRelated: boolean;
-  isContestEntriesAssigned: boolean;
+  isContestEntriesAssigned?: boolean;
 };
 
 /*
