@@ -898,7 +898,11 @@ export const deleteSourcecastEntry = async (
  */
 export const updateAssessment = async (
   id: number,
-  body: { openAt?: string; closeAt?: string; isPublished?: boolean },
+  body: {
+    openAt?: string;
+    closeAt?: string;
+    isPublished?: boolean;
+  },
   tokens: Tokens
 ): Promise<Response | null> => {
   const resp = await request(`${courseId()}/admin/assessments/${id}`, 'POST', {
@@ -906,6 +910,29 @@ export const updateAssessment = async (
     body: body,
     noHeaderAccept: true
   });
+
+  return resp;
+};
+
+/**
+ * POST /courses/{courseId}/admin/assessments/{assessmentId}/assign_contest_entries
+ */
+export const assignContestEntries = async (
+  id: number,
+  body: {
+    isContestEntriesAssigned?: boolean;
+  },
+  tokens: Tokens
+): Promise<Response | null> => {
+  const resp = await request(
+    `${courseId()}/admin/assessments/${id}/assign_contest_entries`,
+    'POST',
+    {
+      ...tokens,
+      body: body,
+      noHeaderAccept: true
+    }
+  );
 
   return resp;
 };

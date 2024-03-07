@@ -16,6 +16,7 @@ import {
   GradingQuestion
 } from '../../features/grading/GradingTypes';
 import {
+  ASSIGN_CONTEST_ENTRIES,
   CHANGE_DATE_ASSESSMENT,
   DELETE_ASSESSMENT,
   PUBLISH_ASSESSMENT,
@@ -89,6 +90,7 @@ import { computeRedirectUri, getClientId, getDefaultProvider } from '../utils/Au
 import { showSuccessMessage, showWarningMessage } from '../utils/notifications/NotificationsHelper';
 import { CHANGE_SUBLANGUAGE, WorkspaceLocation } from '../workspace/WorkspaceTypes';
 import {
+  assignContestEntries,
   deleteAssessment,
   deleteSourcecastEntry,
   getAssessment,
@@ -1169,6 +1171,33 @@ function* BackendSaga(): SagaIterator {
       }
 
       yield put(actions.fetchAssessmentOverviews());
+    }
+  );
+
+  yield takeEvery(
+    ASSIGN_CONTEST_ENTRIES,
+    function* (action: ReturnType<typeof actions.assignContestEntries>): any {
+      const tokens: Tokens = yield selectTokens();
+      const id = action.payload.id;
+      const toggleAssignTo = action.payload.toggleAssignTo;
+
+      yield assignContestEntries(id, { isContestEntriesAssigned: toggleAssignTo }, tokens);
+      const resp: Response | null = yield assignContestEntries(
+        id,
+        { isContestEntriesAssigned: toggleAssignTo },
+        tokens
+      );
+      if (!resp || !resp.ok) {
+        return yield handleResponseError(resp);
+      }
+
+      yield put(actions.fetchAssessmentOverviews());
+
+      if (toggleAssignTo) {
+        yield call(showSuccessMessage, 'Contest entries assigned successfully!', 1000);
+      } else {
+        yield call(showSuccessMessage, 'Contest entries unassigned successfully!', 1000);
+      }
     }
   );
 }
