@@ -45,10 +45,12 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     isVotingPublished
   ]);
 
-  const toggleVotingFeatures = useCallback(
-    () => setHasVotingFeatures(!hasVotingFeatures),
-    [hasVotingFeatures]
-  );
+  const toggleVotingFeatures = useCallback(() => {
+    setHasVotingFeatures(!hasVotingFeatures);
+    if (!hasVotingFeatures) {
+      setIsVotingPublished(false);
+    }
+  }, [hasVotingFeatures]);
 
   const toggleHasTokenCounter = useCallback(
     () => setHasTokenCounter(!hasTokenCounter),
