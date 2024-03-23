@@ -87,7 +87,7 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
               checked={hasTokenCounter}
               onChange={toggleHasTokenCounter}
               inline
-              label="Has Token Counter"
+              label="Has token counter"
             ></Switch>
           </div>
           <div className="voting-related-configs">
@@ -100,7 +100,7 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
               checked={hasVotingFeatures}
               onChange={toggleVotingFeatures}
               inline
-              label="Enable Voting Features"
+              label="Enable voting features"
             ></Switch>
             <Collapse isOpen={hasVotingFeatures}>
               <div className="voting-related-controls">
