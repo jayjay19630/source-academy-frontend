@@ -17,7 +17,8 @@ type Props = {
   handleConfigureAssessment: (
     id: number,
     hasVotingFeatures: boolean,
-    hasTokenCounter: boolean
+    hasTokenCounter: boolean,
+    isVotingPublished: boolean
   ) => void;
   data: AssessmentOverview;
 };
@@ -26,23 +27,37 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
   const [isDialogOpen, setDialogState] = useState(false);
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
+  const [isVotingPublished, setIsVotingPublished] = useState(!!data.isVotingPublished);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
   const handleCloseDialog = useCallback(() => setDialogState(false), []);
 
   const handleConfigure = useCallback(() => {
     const { id } = data;
-    handleConfigureAssessment(id, hasTokenCounter, hasVotingFeatures);
+    handleConfigureAssessment(id, hasTokenCounter, hasVotingFeatures, isVotingPublished);
     handleCloseDialog();
-  }, [data, handleCloseDialog, handleConfigureAssessment, hasTokenCounter, hasVotingFeatures]);
+  }, [
+    data,
+    handleCloseDialog,
+    handleConfigureAssessment,
+    hasTokenCounter,
+    hasVotingFeatures,
+    isVotingPublished
+  ]);
+
+  const toggleVotingFeatures = useCallback(
+    () => setHasVotingFeatures(!hasVotingFeatures),
+    [hasVotingFeatures]
+  );
 
   const toggleHasTokenCounter = useCallback(
     () => setHasTokenCounter(!hasTokenCounter),
     [hasTokenCounter]
   );
-  const toggleVotingFeatures = useCallback(
-    () => setHasVotingFeatures(!hasVotingFeatures),
-    [hasVotingFeatures]
+
+  const toggleIsVotingPublished = useCallback(
+    () => setIsVotingPublished(!isVotingPublished),
+    [isVotingPublished]
   );
 
   return (
@@ -103,9 +118,10 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                 </div>
                 <Switch
                   className="publish-voting"
-                  disabled={true}
+                  checked={isVotingPublished}
+                  onChange={toggleIsVotingPublished}
                   inline
-                  label="Publish Voting (Coming soon!)"
+                  label="Publish Voting)"
                 ></Switch>
               </div>
             </Collapse>

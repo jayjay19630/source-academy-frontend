@@ -64,6 +64,7 @@ export type AssessmentOverview = {
   isPublished?: boolean;
   hasVotingFeatures: boolean;
   hasTokenCounter?: boolean;
+  isVotingPublished?: boolean;
   maxXp: number;
   number?: string; // For mission control
   openAt: string;
