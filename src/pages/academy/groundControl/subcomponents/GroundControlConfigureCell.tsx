@@ -123,7 +123,7 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                   checked={isVotingPublished}
                   onChange={toggleIsVotingPublished}
                   inline
-                  label="Assign and publish contest entries for voting"
+                  label="Assign and publish entries for voting"
                 ></Switch>
               </div>
             </Collapse>
