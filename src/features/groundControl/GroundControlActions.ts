@@ -33,9 +33,8 @@ export const configureAssessment = createAction(
     id: number,
     hasVotingFeatures: boolean,
     hasTokenCounter: boolean,
-    isVotingPublished: boolean,
-    deleteVotes: boolean
+    reassignEntriesForVoting: boolean
   ) => ({
-    payload: { id, hasVotingFeatures, hasTokenCounter, isVotingPublished, deleteVotes }
+    payload: { id, hasVotingFeatures, hasTokenCounter, reassignEntriesForVoting }
   })
 );

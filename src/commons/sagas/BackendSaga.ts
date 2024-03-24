@@ -1181,16 +1181,14 @@ function* BackendSaga(): SagaIterator {
       const id = action.payload.id;
       const hasVotingFeatures = action.payload.hasVotingFeatures;
       const hasTokenCounter = action.payload.hasTokenCounter;
-      const isVotingPublished = action.payload.isVotingPublished;
-      const deleteVotes = action.payload.deleteVotes;
+      const reassignEntriesForVoting = action.payload.reassignEntriesForVoting;
 
       const resp: Response | null = yield updateAssessment(
         id,
         {
           hasVotingFeatures: hasVotingFeatures,
           hasTokenCounter: hasTokenCounter,
-          isVotingPublished: isVotingPublished,
-          deleteVotes: deleteVotes
+          reassignEntriesForVoting: reassignEntriesForVoting
         },
         tokens
       );

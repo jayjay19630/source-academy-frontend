@@ -904,8 +904,7 @@ export const updateAssessment = async (
     isPublished?: boolean;
     hasVotingFeatures?: boolean;
     hasTokenCounter?: boolean;
-    isVotingPublished?: boolean;
-    deleteVotes?: boolean;
+    reassignEntriesForVoting?: boolean;
   },
   tokens: Tokens
 ): Promise<Response | null> => {

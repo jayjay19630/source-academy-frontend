@@ -18,8 +18,7 @@ type Props = {
     id: number,
     hasVotingFeatures: boolean,
     hasTokenCounter: boolean,
-    isVotingPublished: boolean,
-    deleteVotes: boolean
+    reassignEntriesForVoting: boolean
   ) => void;
   data: AssessmentOverview;
 };
@@ -28,21 +27,14 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
   const [isDialogOpen, setDialogState] = useState(false);
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
-  const [isVotingPublished, setIsVotingPublished] = useState(!!data.isVotingPublished);
-  const [deleteVotes, setDeleteVotes] = useState(false);
+  const [reassignEntriesForVoting, setReassignEntriesForVoting] = useState(false);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
   const handleCloseDialog = useCallback(() => setDialogState(false), []);
 
   const handleConfigure = useCallback(() => {
     const { id } = data;
-    handleConfigureAssessment(
-      id,
-      hasVotingFeatures,
-      hasTokenCounter,
-      isVotingPublished,
-      deleteVotes
-    );
+    handleConfigureAssessment(id, hasVotingFeatures, hasTokenCounter, reassignEntriesForVoting);
     handleCloseDialog();
   }, [
     data,
@@ -50,15 +42,11 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     handleConfigureAssessment,
     hasTokenCounter,
     hasVotingFeatures,
-    isVotingPublished,
-    deleteVotes
+    reassignEntriesForVoting
   ]);
 
   const toggleVotingFeatures = useCallback(() => {
     setHasVotingFeatures(!hasVotingFeatures);
-    if (!hasVotingFeatures) {
-      setIsVotingPublished(false);
-    }
   }, [hasVotingFeatures]);
 
   const toggleHasTokenCounter = useCallback(
@@ -66,12 +54,10 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     [hasTokenCounter]
   );
 
-  const toggleIsVotingPublished = useCallback(
-    () => setIsVotingPublished(!isVotingPublished),
-    [isVotingPublished]
+  const toggleReassignEntriesForVoting = useCallback(
+    () => setReassignEntriesForVoting(!reassignEntriesForVoting),
+    [reassignEntriesForVoting]
   );
-
-  const toggleDeleteVotes = useCallback(() => setDeleteVotes(!deleteVotes), [deleteVotes]);
 
   return (
     <>
@@ -131,16 +117,10 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                 </div>
                 <Switch
                   className="publish-voting"
-                  checked={isVotingPublished}
-                  onChange={toggleIsVotingPublished}
+                  checked={reassignEntriesForVoting}
+                  onChange={toggleReassignEntriesForVoting}
                   inline
-                  label="Assign and display entries for voting"
-                ></Switch>
-                <Switch
-                  className="remove-voting-entries"
-                  onChange={toggleDeleteVotes}
-                  inline
-                  label="Delete all existing votes"
+                  label="Assign/Re-assign entries for voting"
                 ></Switch>
               </div>
             </Collapse>
