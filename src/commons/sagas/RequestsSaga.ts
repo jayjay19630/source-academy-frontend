@@ -905,6 +905,7 @@ export const updateAssessment = async (
     hasVotingFeatures?: boolean;
     hasTokenCounter?: boolean;
     isVotingPublished?: boolean;
+    deleteVotes?: boolean;
   },
   tokens: Tokens
 ): Promise<Response | null> => {

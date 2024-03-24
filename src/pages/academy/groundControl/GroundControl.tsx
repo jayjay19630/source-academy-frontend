@@ -31,7 +31,8 @@ export type DispatchProps = {
     id: number,
     hasVotingFeatures: boolean,
     hasTokenCounter: boolean,
-    isVotingPublished: boolean
+    isVotingPublished: boolean,
+    deleteVotes: boolean
   ) => void;
   handleFetchCourseConfigs: () => void;
 };

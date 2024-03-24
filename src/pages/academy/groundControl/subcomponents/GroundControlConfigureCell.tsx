@@ -18,7 +18,8 @@ type Props = {
     id: number,
     hasVotingFeatures: boolean,
     hasTokenCounter: boolean,
-    isVotingPublished: boolean
+    isVotingPublished: boolean,
+    deleteVotes: boolean
   ) => void;
   data: AssessmentOverview;
 };
@@ -28,13 +29,20 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
   const [isVotingPublished, setIsVotingPublished] = useState(!!data.isVotingPublished);
+  const [deleteVotes, setDeleteVotes] = useState(false);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
   const handleCloseDialog = useCallback(() => setDialogState(false), []);
 
   const handleConfigure = useCallback(() => {
     const { id } = data;
-    handleConfigureAssessment(id, hasVotingFeatures, hasTokenCounter, isVotingPublished);
+    handleConfigureAssessment(
+      id,
+      hasVotingFeatures,
+      hasTokenCounter,
+      isVotingPublished,
+      deleteVotes
+    );
     handleCloseDialog();
   }, [
     data,
@@ -42,7 +50,8 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     handleConfigureAssessment,
     hasTokenCounter,
     hasVotingFeatures,
-    isVotingPublished
+    isVotingPublished,
+    deleteVotes
   ]);
 
   const toggleVotingFeatures = useCallback(() => {
@@ -61,6 +70,8 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     () => setIsVotingPublished(!isVotingPublished),
     [isVotingPublished]
   );
+
+  const toggleDeleteVotes = useCallback(() => setDeleteVotes(!deleteVotes), [deleteVotes]);
 
   return (
     <>
@@ -123,7 +134,13 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                   checked={isVotingPublished}
                   onChange={toggleIsVotingPublished}
                   inline
-                  label="Assign and publish entries for voting"
+                  label="Assign and display entries for voting"
+                ></Switch>
+                <Switch
+                  className="remove-voting-entries"
+                  onChange={toggleDeleteVotes}
+                  inline
+                  label="Delete all existing votes"
                 ></Switch>
               </div>
             </Collapse>
