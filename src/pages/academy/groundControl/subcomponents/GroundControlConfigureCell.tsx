@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonGroup,
   Collapse,
   Dialog,
   DialogBody,
@@ -7,7 +9,7 @@ import {
   Intent,
   Switch
 } from '@blueprintjs/core';
-import { IconNames } from '@blueprintjs/icons';
+import { IconNames, InfoSign, Reset } from '@blueprintjs/icons';
 import React, { useCallback, useState } from 'react';
 
 import { AssessmentOverview } from '../../../../commons/assessment/AssessmentTypes';
@@ -17,9 +19,9 @@ type Props = {
   handleConfigureAssessment: (
     id: number,
     hasVotingFeatures: boolean,
-    hasTokenCounter: boolean,
-    reassignEntriesForVoting: boolean
+    hasTokenCounter: boolean
   ) => void;
+  reassignEntriesForVoting: () => void;
   data: AssessmentOverview;
 };
 
@@ -27,23 +29,17 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
   const [isDialogOpen, setDialogState] = useState(false);
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
-  const [reassignEntriesForVoting, setReassignEntriesForVoting] = useState(false);
+  const [isVotingPublished] = useState(false);
+  const [confirmAssignEntries, setConfirmAssignEntries] = useState(false);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
   const handleCloseDialog = useCallback(() => setDialogState(false), []);
 
   const handleConfigure = useCallback(() => {
     const { id } = data;
-    handleConfigureAssessment(id, hasVotingFeatures, hasTokenCounter, reassignEntriesForVoting);
+    handleConfigureAssessment(id, hasVotingFeatures, hasTokenCounter);
     handleCloseDialog();
-  }, [
-    data,
-    handleCloseDialog,
-    handleConfigureAssessment,
-    hasTokenCounter,
-    hasVotingFeatures,
-    reassignEntriesForVoting
-  ]);
+  }, [data, handleCloseDialog, handleConfigureAssessment, hasTokenCounter, hasVotingFeatures]);
 
   const toggleVotingFeatures = useCallback(() => {
     setHasVotingFeatures(!hasVotingFeatures);
@@ -54,10 +50,9 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
     [hasTokenCounter]
   );
 
-  const toggleReassignEntriesForVoting = useCallback(
-    () => setReassignEntriesForVoting(!reassignEntriesForVoting),
-    [reassignEntriesForVoting]
-  );
+  const onAssignClick = useCallback(() => setConfirmAssignEntries(true), []);
+
+  const handleCancelAssign = useCallback(() => setConfirmAssignEntries(false), []);
 
   return (
     <>
@@ -115,13 +110,43 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                     label="Export Score Leaderboard (Coming soon!)"
                   ></ControlButton>
                 </div>
-                <Switch
-                  className="publish-voting"
-                  checked={reassignEntriesForVoting}
-                  onChange={toggleReassignEntriesForVoting}
-                  inline
-                  label="Assign/Re-assign entries for voting"
-                ></Switch>
+                <div className="current-voting-status">
+                  <InfoSign></InfoSign>
+                  <p className="voting-status-text">
+                    Current Voting Status: Entries have {!isVotingPublished && <b>not </b>} been
+                    assigned
+                  </p>
+                </div>
+                {!confirmAssignEntries ? (
+                  <div className="control-button-container">
+                    <ControlButton
+                      icon={IconNames.RESET}
+                      onClick={onAssignClick}
+                      label={`${!isVotingPublished ? 'Assign' : 'Reassign'} entries for voting`}
+                    ></ControlButton>
+                  </div>
+                ) : (
+                  <div className="confirm-assign-voting">
+                    <Reset></Reset>
+                    <p className="confirm-assign-text">
+                      Are you sure you want to{' '}
+                      <b>{isVotingPublished ? 're-assign' : 'assign'} entries?</b>
+                    </p>
+                    <ButtonGroup>
+                      <Button small intent="success">
+                        Assign
+                      </Button>
+                      <Button small intent="danger" onClick={handleCancelAssign}>
+                        Cancel
+                      </Button>
+                    </ButtonGroup>
+                  </div>
+                )}
+                {isVotingPublished && (
+                  <p className="reassign-voting-warning">
+                    <b>All existing votes</b> will be <b>deleted</b> upon reassigning entries!
+                  </p>
+                )}
               </div>
             </Collapse>
           </div>
