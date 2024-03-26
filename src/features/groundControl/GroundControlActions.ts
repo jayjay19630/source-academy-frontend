@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import {
+  ASSIGN_ENTRIES_FOR_VOTING,
   CHANGE_DATE_ASSESSMENT,
   CONFIGURE_ASSESSMENT,
   DELETE_ASSESSMENT,
@@ -29,12 +30,11 @@ export const uploadAssessment = createAction(
 
 export const configureAssessment = createAction(
   CONFIGURE_ASSESSMENT,
-  (
-    id: number,
-    hasVotingFeatures: boolean,
-    hasTokenCounter: boolean,
-    reassignEntriesForVoting: boolean
-  ) => ({
-    payload: { id, hasVotingFeatures, hasTokenCounter, reassignEntriesForVoting }
+  (id: number, hasVotingFeatures: boolean, hasTokenCounter: boolean) => ({
+    payload: { id, hasVotingFeatures, hasTokenCounter }
   })
 );
+
+export const assignEntriesForVoting = createAction(ASSIGN_ENTRIES_FOR_VOTING, (id: number) => ({
+  payload: { id }
+}));

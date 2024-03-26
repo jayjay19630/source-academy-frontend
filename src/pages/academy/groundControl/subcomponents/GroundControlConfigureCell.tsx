@@ -21,15 +21,19 @@ type Props = {
     hasVotingFeatures: boolean,
     hasTokenCounter: boolean
   ) => void;
-  reassignEntriesForVoting: () => void;
+  handleAssignEntriesForVoting: (id: number) => void;
   data: AssessmentOverview;
 };
 
-const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => {
+const ConfigureCell: React.FC<Props> = ({
+  handleConfigureAssessment,
+  handleAssignEntriesForVoting,
+  data
+}) => {
   const [isDialogOpen, setDialogState] = useState(false);
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
-  const [isVotingPublished] = useState(false);
+  const [isVotingPublished] = useState(true);
   const [confirmAssignEntries, setConfirmAssignEntries] = useState(false);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
@@ -51,6 +55,11 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
   );
 
   const onAssignClick = useCallback(() => setConfirmAssignEntries(true), []);
+
+  const handleConfirmAssign = useCallback(() => {
+    const { id } = data;
+    handleAssignEntriesForVoting(id);
+  }, [data, handleAssignEntriesForVoting]);
 
   const handleCancelAssign = useCallback(() => setConfirmAssignEntries(false), []);
 
@@ -133,7 +142,7 @@ const ConfigureCell: React.FC<Props> = ({ handleConfigureAssessment, data }) => 
                       <b>{isVotingPublished ? 're-assign' : 'assign'} entries?</b>
                     </p>
                     <ButtonGroup>
-                      <Button small intent="success">
+                      <Button small intent="success" onClick={handleConfirmAssign}>
                         Assign
                       </Button>
                       <Button small intent="danger" onClick={handleCancelAssign}>

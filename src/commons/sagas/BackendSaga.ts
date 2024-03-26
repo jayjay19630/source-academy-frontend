@@ -16,6 +16,7 @@ import {
   GradingQuestion
 } from '../../features/grading/GradingTypes';
 import {
+  ASSIGN_ENTRIES_FOR_VOTING,
   CHANGE_DATE_ASSESSMENT,
   CONFIGURE_ASSESSMENT,
   DELETE_ASSESSMENT,
@@ -1181,14 +1182,34 @@ function* BackendSaga(): SagaIterator {
       const id = action.payload.id;
       const hasVotingFeatures = action.payload.hasVotingFeatures;
       const hasTokenCounter = action.payload.hasTokenCounter;
-      const reassignEntriesForVoting = action.payload.reassignEntriesForVoting;
 
       const resp: Response | null = yield updateAssessment(
         id,
         {
           hasVotingFeatures: hasVotingFeatures,
-          hasTokenCounter: hasTokenCounter,
-          reassignEntriesForVoting: reassignEntriesForVoting
+          hasTokenCounter: hasTokenCounter
+        },
+        tokens
+      );
+      if (!resp || !resp.ok) {
+        return yield handleResponseError(resp);
+      }
+
+      yield put(actions.fetchAssessmentOverviews());
+      yield call(showSuccessMessage, 'Updated successfully!', 1000);
+    }
+  );
+
+  yield takeEvery(
+    ASSIGN_ENTRIES_FOR_VOTING,
+    function* (action: ReturnType<typeof actions.assignEntriesForVoting>): any {
+      const tokens: Tokens = yield selectTokens();
+      const id = action.payload.id;
+
+      const resp: Response | null = yield updateAssessment(
+        id,
+        {
+          assignEntriesForVoting: true
         },
         tokens
       );

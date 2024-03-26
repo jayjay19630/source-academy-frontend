@@ -904,7 +904,7 @@ export const updateAssessment = async (
     isPublished?: boolean;
     hasVotingFeatures?: boolean;
     hasTokenCounter?: boolean;
-    reassignEntriesForVoting?: boolean;
+    assignEntriesForVoting?: boolean;
   },
   tokens: Tokens
 ): Promise<Response | null> => {

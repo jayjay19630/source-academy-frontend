@@ -30,9 +30,9 @@ export type DispatchProps = {
   handleConfigureAssessment: (
     id: number,
     hasVotingFeatures: boolean,
-    hasTokenCounter: boolean,
-    reassignEntriesForVoting: boolean
+    hasTokenCounter: boolean
   ) => void;
+  handleAssignEntriesForVoting: (id: number) => void;
   handleFetchCourseConfigs: () => void;
 };
 
@@ -140,7 +140,8 @@ class GroundControl extends React.Component<GroundControlProps, State> {
         field: '',
         cellRenderer: ConfigureCell,
         cellRendererParams: {
-          handleConfigureAssessment: this.props.handleConfigureAssessment
+          handleConfigureAssessment: this.props.handleConfigureAssessment,
+          handleAssignEntriesForVoting: this.props.handleAssignEntriesForVoting
         },
         width: 80,
         filter: false,
