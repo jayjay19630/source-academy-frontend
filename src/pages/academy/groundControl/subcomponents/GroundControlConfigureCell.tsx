@@ -33,7 +33,7 @@ const ConfigureCell: React.FC<Props> = ({
   const [isDialogOpen, setDialogState] = useState(false);
   const [hasVotingFeatures, setHasVotingFeatures] = useState(!!data.hasVotingFeatures);
   const [hasTokenCounter, setHasTokenCounter] = useState(!!data.hasTokenCounter);
-  const [isVotingPublished] = useState(true);
+  const [isVotingPublished] = useState(!!data.isVotingPublished);
   const [confirmAssignEntries, setConfirmAssignEntries] = useState(false);
 
   const handleOpenDialog = useCallback(() => setDialogState(true), []);
